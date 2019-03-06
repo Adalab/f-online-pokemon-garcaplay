@@ -29,7 +29,7 @@ class App extends Component {
 
   getData(){
     //https://pokeapi.co/api/v2/pokemon/{id or name}/
-    const endpoint = 'https://pokeapi.co/api/v2/pokemon/';
+    const endpoint = 'https://pokeapi.co/api/v2/pokemon/?limit=25&offset=0';
     fetch(endpoint)
       .then(res=>res.json())
       .then(data=> {
@@ -60,22 +60,27 @@ class App extends Component {
         <main>
           <div className="App__body">
             <ul className="List">
-              <li className="List__item">
-                <div className="List__item-card">
-                  <div className="Card__header">
-                    <div className="Card__id">
-                      ID/#Example
+            {this.state.pokemonList.map((poke, index)=>{
+              return(
+                <li className="List__item">
+                  <div className="List__item-card">
+                    <div className="Card__header">
+                      <div className="Card__id">
+                        ID/#Example
+                      </div>
+                      <img src="" className="Card__img"/>
                     </div>
-                    <img src="" className="Card__img"/>
-                  </div>
-                  <div className="Card__body">
-                    <h2 className="Card__title">NameExample</h2>
-                    <div className="Card__chips">
-                      <h3>ChipExample</h3>
+                    <div className="Card__body">
+                      <h2 className="Card__title">{poke.name}</h2>
+                      <div className="Card__chips">
+                        <h3>ChipExample</h3>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </li>
+                </li>
+              )
+            })}
+              
             </ul>
           </div>
         </main>
