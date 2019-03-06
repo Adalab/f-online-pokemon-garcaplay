@@ -35,7 +35,7 @@ class App extends Component {
           </div>
         </main>
         <footer>
-          <div>Here will go a footer with its copyright</div>
+          <div className="App__footer">Here will go a footer with its copyright</div>
         </footer>
       </div>
     );

@@ -1,1 +1,68 @@
-
+.App{
+  height: 100vh;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+.App header, main, footer{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.App__title{
+  background-color: aquamarine;
+}
+.App__filter{
+  width:50%;
+}
+.Filter__name{
+  width:100%;
+}
+.App__body{
+  width: 100%;
+  background-color: brown;
+  
+}
+.List{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: auto;
+}
+.List__item{
+  height: 200px;
+  width: 200px;
+}
+.List__item-card{
+  height: 100%;
+}
+.Card__header{
+  position: relative;
+  height: 60%;
+  background-color: blanchedalmond;
+}
+.Card__id{
+  position: absolute;
+  bottom: 0;
+}
+.Card__img{
+  
+  height: 100%;
+}
+.Card__body{
+  height: 40%;
+  background-color: cadetblue;
+}
+.Card__title{
+  margin: 0;
+}
+.Card__chips{
+  margin: 0;
+}
+.App__footer{
+  width: 100%;
+  height: 50px;
+  background-color: rgb(238, 247, 202);
+}
