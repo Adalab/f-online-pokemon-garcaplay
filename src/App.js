@@ -93,21 +93,30 @@ class App extends Component {
         <main>
           <div className="App__body">
             <ul className="List">
-            {this.state.pokemonList.map((poke, index)=>{
-              
+            {this.state.pokemonDetails.map((poke, index)=>{
               return(
                 <li className="List__item" key={index}>
                   <div className="List__item-card">
                     <div className="Card__header">
                       <div className="Card__id">
-                        ID/#Example
+                        ID/#{poke.id}
                       </div>
-                      <img src="" className="Card__img"/>
+                      <img src={poke.sprites.front_default} className="Card__img" alt={poke.name}/>
                     </div>
                     <div className="Card__body">
                       <h2 className="Card__title">{poke.name}</h2>
                       <div className="Card__chips">
-                        <h3>ChipExample</h3>
+                        <ul className="Card__chips-list">
+                          {poke.types.map((chip, index)=>{
+                            return(
+                              <li className="Chips__list-item" key={index}>
+                                <h3>{chip.type.name}</h3>
+                              </li>
+                            )
+                          })}
+                        
+                        </ul>
+                      
                       </div>
                     </div>
                   </div>
