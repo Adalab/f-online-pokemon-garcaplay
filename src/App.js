@@ -6,6 +6,7 @@ class App extends Component {
     super(props);
     this.state = {
       pokemonList: [],
+      pokemonUrls: [],
       pokemonDetails: [],
     }
 
@@ -17,6 +18,7 @@ class App extends Component {
 
   componentDidMount(){
     this.getFirstSavedData();
+    
   }
 
   getFirstSavedData(){
@@ -24,22 +26,19 @@ class App extends Component {
       let mySavedData = JSON.parse(localStorage.getItem('pokemonList'));
       this.setState({
         pokemonList: mySavedData,
-      }, ()=>this.getSecondSavedData())
+      })
     } else {
       this.getFirstData();
     }
 
   }
   getSecondSavedData(){
-    console.log('entre');
     if(localStorage.getItem('pokemonDetails') !== null){
-      console.log('no es null', this.state.pokemonDetails);
       let mySavedData = JSON.parse(localStorage.getItem('pokemonDetails'));
       this.setState({
         pokemonDetails: mySavedData,
       })
     } else {
-      console.log('es null');
       this.getSecondData();
     }
   }
@@ -53,37 +52,32 @@ class App extends Component {
         let results = data.results;
         this.setState({
           pokemonList: results,
-        });
-        this.saveData(this.state.pokemonList, 'pokemonList');
-        }
-      )
-      .then(this.getSecondData()); 
+        }, ()=>{this.saveData(this.state.pokemonList, 'pokemonList')})
+        }, ()=>{this.getSecondData()})
   }
 
   getSecondData(){
-    console.log('vamos a pedir datos')
-    this.state.pokemonList.map(poke=>{
-      console.log('voy a mapear');
-      const endpoint = poke.url;
-      const getAction = ()=> {
-        console.log('aquiandamos');
-        fetch(endpoint)
-          .then(res=>res.json())
-          .then(data=> {
-            console.log(data);
-            let results = data.results;
-            this.setState({
-              pokemonDetails: [...this.state.pokemonDetails, results],
-            });
-            this.saveData(this.state.pokemonDetails, 'pokemonDetails');
-          });
-      }
-      return getAction(); 
-    }); 
+    this.state.pokemonList.forEach(poke=>{
+      fetch(poke.url)
+        .then(res=>res.json())
+        .then(data=>{
+          let results = data;
+          this.setState({
+            pokemonDetails: [...this.state.pokemonDetails, results],
+          }, ()=> this.saveData(this.state.pokemonDetails, 'pokemonDetails'));
+        })
+    });
   }
+  
 
   saveData(data, dataName){
-    localStorage.setItem(dataName, JSON.stringify(data))
+    if(dataName==='pokemonList'){
+    localStorage.setItem(dataName, JSON.stringify(data));
+    this.getSecondData();
+    } else {
+      localStorage.setItem(dataName, JSON.stringify(data));
+    }
+    
   }
   
   render() {
