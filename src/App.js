@@ -5,69 +5,49 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      pokemonList: [],
-      pokemonUrls: [],
       pokemonDetails: [],
     }
 
     this.getSavedData = this.getSavedData.bind(this);
-    this.getFirstData = this.getFirstData.bind(this);
-    this.getSecondData = this.getSecondData.bind(this);
+    this.getData = this.getData.bind(this);
   }
 
   componentDidMount(){
     this.getSavedData();
-    
   }
 
   getSavedData(){
-    if(localStorage.getItem('pokemonList') !== null && localStorage.getItem('pokemonDetails') !== null){
-      let listSaved = JSON.parse(localStorage.getItem('pokemonList'));
+    if(localStorage.getItem('pokemonDetails') !== null){
       let dataSaved = JSON.parse(localStorage.getItem('pokemonDetails'));
       this.setState({
-        pokemonList: listSaved,
         pokemonDetails: dataSaved,
       })
-    } else if(localStorage.getItem('pokemonList') === null){
-      this.getFirstData();
+    } else {
+      this.getData();
     }
-
   }
 
-  getFirstData(){
+  getData(){
     const endpoint = 'https://pokeapi.co/api/v2/pokemon/?limit=25&offset=0';
     fetch(endpoint)
       .then(res=>res.json())
       .then(data=> {
         let results = data.results;
-        this.setState({
-          pokemonList: results,
-        }, ()=>{this.saveData(this.state.pokemonList, 'pokemonList')})
-        }, ()=>{this.getSecondData()})
-  }
-
-  getSecondData(){
-    this.state.pokemonList.forEach(poke=>{
-      fetch(poke.url)
-        .then(res=>res.json())
-        .then(data=>{
-          let results = data;
-          this.setState({
-            pokemonDetails: [...this.state.pokemonDetails, results],
-          }, ()=> this.saveData(this.state.pokemonDetails, 'pokemonDetails'));
+        results.map(poke=>{
+          return(fetch(poke.url)
+          .then(res=>res.json())
+          .then(data=>{
+            let results = data;
+            this.setState({
+              pokemonDetails: [...this.state.pokemonDetails, results],
+            }, ()=> this.saveData(this.state.pokemonDetails, 'pokemonDetails'));
+          }))
         })
     });
   }
   
-
   saveData(data, dataName){
-    if(dataName==='pokemonList'){
     localStorage.setItem(dataName, JSON.stringify(data));
-    this.getSecondData();
-    } else {
-      localStorage.setItem(dataName, JSON.stringify(data));
-    }
-    
   }
   
   render() {
