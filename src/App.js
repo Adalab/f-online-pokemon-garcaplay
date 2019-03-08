@@ -10,41 +10,31 @@ class App extends Component {
       pokemonDetails: [],
     }
 
-    this.getFirstSavedData = this.getFirstSavedData.bind(this);
+    this.getSavedData = this.getSavedData.bind(this);
     this.getFirstData = this.getFirstData.bind(this);
-    this.getSecondSavedData = this.getSecondSavedData.bind(this);
     this.getSecondData = this.getSecondData.bind(this);
   }
 
   componentDidMount(){
-    this.getFirstSavedData();
+    this.getSavedData();
     
   }
 
-  getFirstSavedData(){
-    if(localStorage.getItem('pokemonList') !== null){
-      let mySavedData = JSON.parse(localStorage.getItem('pokemonList'));
+  getSavedData(){
+    if(localStorage.getItem('pokemonList') !== null && localStorage.getItem('pokemonDetails') !== null){
+      let listSaved = JSON.parse(localStorage.getItem('pokemonList'));
+      let dataSaved = JSON.parse(localStorage.getItem('pokemonDetails'));
       this.setState({
-        pokemonList: mySavedData,
+        pokemonList: listSaved,
+        pokemonDetails: dataSaved,
       })
-    } else {
+    } else if(localStorage.getItem('pokemonList') === null){
       this.getFirstData();
     }
 
   }
-  getSecondSavedData(){
-    if(localStorage.getItem('pokemonDetails') !== null){
-      let mySavedData = JSON.parse(localStorage.getItem('pokemonDetails'));
-      this.setState({
-        pokemonDetails: mySavedData,
-      })
-    } else {
-      this.getSecondData();
-    }
-  }
 
   getFirstData(){
-    //https://pokeapi.co/api/v2/pokemon/{id or name}/
     const endpoint = 'https://pokeapi.co/api/v2/pokemon/?limit=25&offset=0';
     fetch(endpoint)
       .then(res=>res.json())
