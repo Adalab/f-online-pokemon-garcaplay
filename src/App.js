@@ -75,13 +75,13 @@ class App extends Component {
     this.setState({
       filterIt: text,
     })
-
   }
 
   isPaint(){
     if(this.state.pokemonDetailsOrdered.length === 25){
+      const filteredPokemons = this.state.pokemonDetailsOrdered.filter(pokemon => pokemon.name.toLowerCase().includes(this.state.filterIt.toLocaleLowerCase()));
       return(
-        this.state.pokemonDetailsOrdered.map((poke, index)=>{
+        filteredPokemons.map((poke, index)=>{
           return(
             <li className="List__item" key={index}>
               <div className="List__item-card">
