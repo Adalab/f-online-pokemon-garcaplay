@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
-import PokeList from './components/PokeList';
-import Filter from './components/Filter';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Main from './components/Main';
+
 
 class App extends Component {
   constructor(props){
@@ -87,18 +89,9 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header>
-          <h1 className="App__title">PokeLab</h1>
-          <Filter getFilter={this.getFilter}></Filter>
-        </header>
-        <main>
-          <div className="App__body">
-            <PokeList limit={this.state.limit} pokemonDetailsOrdered={this.state.pokemonDetailsOrdered} filterIt={this.state.filterIt}></PokeList>       
-          </div>
-        </main>
-        <footer>
-          <div className="App__footer">Here will go a footer with its copyright</div>
-        </footer>
+        <Header getFilter={this.getFilter}></Header>
+        <Main limit={this.state.limit} pokemonDetailsOrdered={this.state.pokemonDetailsOrdered} filterIt={this.state.filterIt}></Main>
+        <Footer></Footer>
       </div>
     );
   }
