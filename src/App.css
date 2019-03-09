@@ -1,17 +1,19 @@
 .App{
-  height: 100vh;
   margin: 0 auto;
   display: grid;
-  grid-auto-rows: 150px, 1fr, 50px;
+  grid-template-rows: auto, 1fr, auto;
+  grid-template-areas: 'header', 'main', 'footer';
+  height: 100vh;
 }
 .App header, main, footer{
-  width: 100%;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 .App header{
   height: 120px;
+  grid-area: 'header';
 }
 .App__title{
   background-color: aquamarine;
@@ -22,10 +24,10 @@
 .Filter__name{
   width:100%;
 }
-.App__body{
+.App main{
+  grid-area: 'main';
   width: 100%;
   background-color: brown;
-  
 }
 .List{
   display: grid;
@@ -77,8 +79,11 @@
 .Chips__list-item h3{
   margin: 0 3px;
 }
-.App__footer{
+.App footer{
   width: 100%;
+  grid-area: 'footer';
   height: 50px;
   background-color: rgb(238, 247, 202);
+  position: relative;
+  bottom: 0;
 }
