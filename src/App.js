@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import PokeList from './components/PokeList';
+import Filter from './components/Filter';
+
 class App extends Component {
   constructor(props){
     super(props);
@@ -87,10 +89,7 @@ class App extends Component {
       <div className="App">
         <header>
           <h1 className="App__title">PokeLab</h1>
-          <div className="App__filter">
-            <label htmlFor="Filter__name"></label>
-            <input type="text" id="Filter__name" name="Filter__name" className="Filter__name" onKeyUp={this.getFilter}></input>
-          </div>
+          <Filter getFilter={this.getFilter}></Filter>
         </header>
         <main>
           <div className="App__body">
