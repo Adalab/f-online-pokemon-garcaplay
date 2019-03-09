@@ -8,28 +8,24 @@ class App extends Component {
       pokemonList: [],
       pokemonUrls: [],
       pokemonDetails: [],
+      pokemonDetailsOrdered: [],
     }
 
     this.getPokemonData = this.getPokemonData.bind(this);
-    // this.getFirstSavedData = this.getFirstSavedData.bind(this);
-    // this.getFirstData = this.getFirstData.bind(this);
-    // this.getSecondSavedData = this.getSecondSavedData.bind(this);
-    // this.getSecondData = this.getSecondData.bind(this);
   }
 
   componentDidMount(){
-    //this.getFirstSavedData();
     this.getPokemonData();
+    
   }
 
   getPokemonData() {
+    let pokemonDetailsOrdered;
     const endpoint = 'https://pokeapi.co/api/v2/pokemon/?limit=25&offset=0';
     fetch(endpoint)
       .then(res=>res.json())
       .then(poke => {
-        console.log(poke.results);
         poke.results.map(item => {
-          console.log(item.url);
           fetch(item.url)
           .then(res => res.json())
           .then(data => {
@@ -45,131 +41,30 @@ class App extends Component {
             };
             const result = this.state.pokemonDetails;
             result.push(poke);
-            this.setState({
-              pokemonDetails: result
-          });
-          //this.saveData(this.state.pokemonDetails,'pokemonDetails');
+            pokemonDetailsOrdered = this.sortArray(result);
+            this.saveData(pokemonDetailsOrdered,'pokemonDetails');
+          })
         })
-        console.log(this.state.pokemonDetails);
-      })
-        // });
-        // for (let i = 0; i < pokeUrl.length; i++){
-        //   fetch(pokeUrl[i])
-        //     .then(res => res.json())
-        //     .then(data => {
-        //       const pokeType = []; 
-        //       for (let j = 0; j < data.types.length; j++) {
-        //         pokeType.push(data.types[j].type["name"]);
-        //       }
-        //       const poke = {
-        //         pokeName: data.name,
-        //         pokeId: data.id,
-        //         pokeImg: data.sprites.front_default,
-        //         type: pokeType
-        //       };
-        //       const result = this.state.pokemonDetails;
-        //       result.push(poke);
-        //       this.setState({
-        //         pokemonDetails: result
-        //     });
-        //     //this.saveData(this.state.pokemonDetails,'pokemonDetails');
-        //   })
-        // }
-        // this.sortArray();
     })
   }
-  sortArray(){
-    console.log(this.state.pokemonDetails[0]);
-    let sortedArray= this.state.pokemonDetails.sort(function(a, b){
-      
-      return b.pokeId - a.pokeId
-    })
-    console.log(sortedArray[0]);
+
+  sortArray(pokemonArray){
+    let pokemonDetailsOrdered = []
+    for (let i = 1; i <= pokemonArray.length; i++) {
+      const filterArray = pokemonArray.filter(pokemonData => (pokemonData.pokeId === i));
+      console.log('el filtrado ', filterArray);
+      pokemonDetailsOrdered = [...pokemonDetailsOrdered, filterArray];
+      console.log('la lista ordenada ', pokemonDetailsOrdered);
+      this.setState({
+        pokemonDetailsOrdered: pokemonDetailsOrdered
+      })
+    }
+    return pokemonDetailsOrdered;
   }
 
   saveData(data, dataName){
-    localStorage.setItem(dataName,JSON.stringify(data))
+    localStorage.setItem(dataName,JSON.stringify(data));
   }
-
-  // getFirstSavedData(){
-  //   if(localStorage.getItem('pokemonList') !== null){
-  //     let mySavedData = JSON.parse(localStorage.getItem('pokemonList'));
-  //     this.setState({
-  //       pokemonList: mySavedData,
-  //     })
-  //   } else {
-  //     this.getFirstData();
-  //   }
-
-  // }
-  // getSecondSavedData(){
-  //   if(localStorage.getItem('pokemonDetails') !== null){
-  //     let mySavedData = JSON.parse(localStorage.getItem('pokemonDetails'));
-  //     this.setState({
-  //       pokemonDetails: mySavedData,
-  //     })
-  //   } else {
-  //     this.getSecondData();
-  //   }
-  // }
-
-  // getFirstData(){
-  //   //https://pokeapi.co/api/v2/pokemon/{id or name}/
-  //   const endpoint = 'https://pokeapi.co/api/v2/pokemon/?limit=25&offset=0';
-  //   fetch(endpoint)
-  //     .then(res=>res.json())
-  //     .then(data=> {
-  //       let results = data.results;
-  //       this.setState({
-  //         pokemonList: results,
-  //       }, ()=>{this.saveData(this.state.pokemonList, 'pokemonList')})
-  //       }, ()=>{this.getSecondData()})
-  // }
-
-  // getSecondData(){
-  //   console.log('entramos a getSecondData');
-  //   let results = [];
-  //   for(let i=0; i < this.state.pokemonList.length; i++){
-  //     fetch(this.state.pokemonList[i].url)
-  //       .then(res=>res.json())
-  //       .then(data=>{
-  //         results.push(data);
-  //         this.setState({
-  //           pokemonDetails: [...this.state.pokemonDetails, results],
-  //         });
-  //       })
-  //   } 
-  //   ()=> this.saveData(this.state.pokemonDetails, 'pokemonDetails');
-  //   //()=> this.sortArray(results));
-  // }
-  
-  // // sortArray(results){
-  // //   this.state.pokemonList.forEach(function(key){
-  // //     let found = false;
-  // //     results.filter(function(item){
-  // //       console.log('estamos comparando ', item.forms.name, ' con ', key.name);
-  // //       if(!found && item.forms.name === key.name){
-  // //         this.setState({
-  // //           pokemonDetails: item
-  // //         });
-  // //         found = true;
-  // //         return false;
-  // //       } else {
-  // //         return true;
-  // //       }
-  // //     })
-  // //   }, ()=>{this.saveData(this.state.pokemonDetails, 'pokemonDetails')})
-  // // }
-
-  // saveData(data, dataName){
-  //   if(dataName==='pokemonList'){
-  //   localStorage.setItem(dataName, JSON.stringify(data));
-  //   this.getSecondData();
-  //   } else {
-  //     localStorage.setItem(dataName, JSON.stringify(data));
-  //   }
-    
-  // }
   
   render() {
     return (
@@ -184,7 +79,7 @@ class App extends Component {
         <main>
           <div className="App__body">
             <ul className="List">
-            {this.state.pokemonList.map((poke, index)=>{
+            {/* {this.state.pokemonList.map((poke, index)=>{
               
               return(
                 <li className="List__item" key={index}>
@@ -204,7 +99,7 @@ class App extends Component {
                   </div>
                 </li>
               )
-            })} 
+            })}  */}
             </ul>
           </div>
         </main>
