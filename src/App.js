@@ -8,6 +8,8 @@ class App extends Component {
       pokemonDetails: [],
       pokemonDetailsOrdered: [],
       filterIt: '',
+      offset: 0,
+      limit: 25,
     }
 
     this.getSavedData = this.getSavedData.bind(this);
@@ -32,7 +34,9 @@ class App extends Component {
 
   getData(){
     let orderedPokemonList=[];
-    const endpoint = 'https://pokeapi.co/api/v2/pokemon/?limit=25&offset=0';
+    const requestOffset = this.state.offset;
+    const requestLimit = this.state.limit;
+    const endpoint = `https://pokeapi.co/api/v2/pokemon/?limit=${requestLimit}&offset=${requestOffset}`;
     fetch(endpoint)
       .then(res=>res.json())
       .then(data=> {
@@ -46,7 +50,7 @@ class App extends Component {
             this.setState({
               pokemonDetails: secondFetchResults,
             })
-            orderedPokemonList = this.sortArray(secondFetchResults);
+            orderedPokemonList = this.sortArray(secondFetchResults, requestOffset, requestLimit);
             this.saveData(orderedPokemonList, 'pokemonDetailsBackup');
           }))
         })
@@ -55,7 +59,8 @@ class App extends Component {
 
   sortArray(pokemonArray){
     let arrayToOrder = []
-    for(let i=1; i<=pokemonArray.length; i++){
+    for(let i=this.state.offset+1; i<=pokemonArray.length+this.state.offset; i++){
+      console.log('i = ',i);
       const filteredArray = pokemonArray.filter(pokemonData => (pokemonData.id === i));
       arrayToOrder = [...arrayToOrder, filteredArray[0]];
       this.setState({
@@ -78,7 +83,7 @@ class App extends Component {
   }
 
   isPaint(){
-    if(this.state.pokemonDetailsOrdered.length === 25){
+    if(this.state.pokemonDetailsOrdered.length === this.state.limit){
       const filteredPokemons = this.state.pokemonDetailsOrdered.filter(pokemon => pokemon.name.toLowerCase().includes(this.state.filterIt.toLocaleLowerCase()));
       return(
         filteredPokemons.map((poke, index)=>{
