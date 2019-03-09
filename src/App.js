@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-
+import PokeList from './components/PokeList';
 class App extends Component {
   constructor(props){
     super(props);
@@ -81,44 +81,6 @@ class App extends Component {
       filterIt: text,
     })
   }
-
-  isPaint(){
-    if(this.state.pokemonDetailsOrdered.length === this.state.limit){
-      const filteredPokemons = this.state.pokemonDetailsOrdered.filter(pokemon => pokemon.name.toLowerCase().includes(this.state.filterIt.toLocaleLowerCase()));
-      return(
-        filteredPokemons.map((poke, index)=>{
-          return(
-            <li className="List__item" key={index}>
-              <div className="List__item-card">
-                <div className="Card__header">
-                  <div className="Card__id">
-                    ID/#{poke.id}
-                  </div>
-                  <img src={poke.sprites.front_default} className="Card__img" alt={poke.name}/>
-                </div>
-                <div className="Card__body">
-                  <h2 className="Card__title">{poke.name}</h2>
-                  <div className="Card__chips">
-                    <ul className="Card__chips-list">
-                      {poke.types.map((chip, index)=>{
-                        return(
-                          <li className="Chips__list-item" key={index}>
-                            <h3>{chip.type.name}</h3>
-                          </li>
-                        )
-                      })}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </li>
-          )
-        })
-      ) 
-    } else{
-      return(<div>Nothing</div>)
-    }
-  }
   
   render() {
     return (
@@ -132,9 +94,7 @@ class App extends Component {
         </header>
         <main>
           <div className="App__body">
-            <ul className="List">
-            {this.isPaint()} 
-            </ul>
+            <PokeList limit={this.state.limit} pokemonDetailsOrdered={this.state.pokemonDetailsOrdered} filterIt={this.state.filterIt}></PokeList>       
           </div>
         </main>
         <footer>
