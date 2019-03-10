@@ -1,6 +1,7 @@
 .App{
   margin: 0 auto;
   display: grid;
+  grid-auto-columns: 1fr;
   grid-template-rows: auto, 1fr, auto;
   grid-template-areas: 'header', 'main', 'footer';
   height: 100vh;
@@ -14,9 +15,11 @@
 .App header{
   height: 120px;
   grid-area: 'header';
+  background-color: #20B16E;
 }
 .App__title{
-  background-color: aquamarine;
+  width: 100%;
+  text-align: center;
 }
 .App__filter{
   width:50%;
@@ -27,16 +30,17 @@
 .App main{
   grid-area: 'main';
   width: 100%;
-  background-color: brown;
+  height: 100%;
+  background-color: #39463E;
 }
 .List{
   display: grid;
+  grid-gap: 10px;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: auto;
+  grid-auto-rows: 250px;
 }
 .List__item{
   list-style: none;
-  height: 200px;
   width: 200px;
 }
 .List__item-card{
@@ -45,45 +49,57 @@
 .Card__header{
   position: relative;
   height: 60%;
-  background-color: blanchedalmond;
+  background-color: #F0F1F3;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 .Card__id{
   position: absolute;
   bottom: 0;
   left: 0;
+  background-color: #822341;
+  border-top-right-radius: 5px; 
+  border-bottom-right-radius: 5px; 
+  padding: 3px;
+  text-transform: uppercase;
+  color: #F0F1F3;
 }
 .Card__img{
-  
-  height: 100%;
+  height: 90%;
+  width: 90%;
 }
 .Card__body{
   height: 40%;
-  background-color: cadetblue;
+  background-color: #D1CDC1;
+  padding: 6px 6px;
 }
 .Card__title{
   margin: 0;
-}
-.Card__chips{
-  margin: 0;
+  text-transform: capitalize;
 }
 .Card__chips-list{
+  margin-left: 3px;
   display: flex;
   flex-direction: row;
   padding: 0;
 }
 .Chips__list-item{
   list-style: none;
+  margin: 3px 6px;
+  background-color: #822341;
+  border-radius: 5px;
+  padding: 3px;
 }
 .Chips__list-item h3{
   margin: 0 3px;
+  text-transform: uppercase;
+  font-size: 10px;
+  color: #F0F1F3;
 }
 .App footer{
   width: 100%;
   grid-area: 'footer';
   height: 50px;
-  background-color: rgb(238, 247, 202);
-  position: relative;
-  bottom: 0;
+  background-color: #20B16E;
 }
