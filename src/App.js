@@ -11,6 +11,7 @@ class App extends Component {
     this.state = {
       pokemonDetails: [],
       pokemonDetailsOrdered: [],
+      pokemonEvolutions: [],
       filterIt: '',
       offset: 0,
       limit: 25,
@@ -26,10 +27,22 @@ class App extends Component {
   }
 
   getSavedData(){
-    if(localStorage.getItem('pokemonDetailsBackup') !== null){
+    if(localStorage.getItem('pokemonDetailsBackup') !== null && localStorage.getItem('pokemonEvolutionsBackup') !== null){
+      let dataSaved = JSON.parse(localStorage.getItem('pokemonDetailsBackup'));
+      let evolutionSaved = JSON.parse(localStorage.getItem('pokemonEvolutionsBackup'));
+      this.setState({
+        pokemonDetailsOrdered: dataSaved,
+        pokemonEvolutions: evolutionSaved,
+      })
+    } else if(localStorage.getItem('pokemonDetailsBackup') !== null){
       let dataSaved = JSON.parse(localStorage.getItem('pokemonDetailsBackup'));
       this.setState({
         pokemonDetailsOrdered: dataSaved,
+      })
+    } else if(localStorage.getItem('pokemonEvolutionsBackup') !== null){
+      let evolutionSaved = JSON.parse(localStorage.getItem('pokemonEvolutionsBackup'));
+      this.setState({
+        pokemonEvolutions: evolutionSaved,
       })
     } else {
       this.getData();
@@ -58,13 +71,34 @@ class App extends Component {
             this.saveData(orderedPokemonList, 'pokemonDetailsBackup');
           }))
         })
+      })
+      .then(this.getEvolution());
+  }
+  getEvolution(){
+    const endpoint = `https://pokeapi.co/api/v2/evolution-chain`;
+    fetch(endpoint)
+      .then(res=>res.json())
+      .then(data=> {
+        let results = data.results;
+        results.map(poke=>{
+          return(
+            fetch(poke.url)
+            .then(res=>res.json())
+            .then(data=>{
+              const evolutionResults = this.state.pokemonEvolutions;
+              evolutionResults.push(data);
+              this.setState({
+                pokemonEvolutions: evolutionResults,
+              })
+              this.saveData(evolutionResults, 'pokemonEvolutionsBackup');
+            }))
+        })
     });
   }
 
   sortArray(pokemonArray){
     let arrayToOrder = []
     for(let i=this.state.offset+1; i<=pokemonArray.length+this.state.offset; i++){
-      console.log('i = ',i);
       const filteredArray = pokemonArray.filter(pokemonData => (pokemonData.id === i));
       arrayToOrder = [...arrayToOrder, filteredArray[0]];
       this.setState({
