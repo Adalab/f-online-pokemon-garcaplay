@@ -7,7 +7,7 @@ class Main extends Component {
         return (
             <main>
                 <div className="App__body">
-                    <PokeList limit={this.props.limit} pokemonDetailsOrdered={this.props.pokemonDetailsOrdered} filterIt={this.props.filterIt}></PokeList>       
+                    <PokeList limit={this.props.limit} pokemonDetailsOrdered={this.props.pokemonDetailsOrdered} filterIt={this.props.filterIt} pokemonEvolutions={this.props.pokemonEvolutions}></PokeList>       
                 </div>
             </main>
         )

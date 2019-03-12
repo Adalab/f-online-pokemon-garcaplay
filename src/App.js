@@ -124,7 +124,7 @@ class App extends Component {
     return (
       <div className="App">
         <Header getFilter={this.getFilter}></Header>
-        <Main limit={this.state.limit} pokemonDetailsOrdered={this.state.pokemonDetailsOrdered} filterIt={this.state.filterIt}></Main>
+        <Main limit={this.state.limit} pokemonDetailsOrdered={this.state.pokemonDetailsOrdered} filterIt={this.state.filterIt} pokemonEvolutions={this.state.pokemonEvolutions}></Main>
         <Footer></Footer>
       </div>
     );

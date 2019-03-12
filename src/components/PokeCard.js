@@ -1,48 +1,83 @@
 import React, { Component } from 'react';
 
 class PokeCard extends Component {
-
     isPaint(){
         if(this.props.pokemonDetailsOrdered.length === this.props.limit){
             const filteredPokemons = this.props.pokemonDetailsOrdered.filter(pokemon => pokemon.name.toLowerCase().includes(this.props.filterIt.toLocaleLowerCase()));
-            return(
-                filteredPokemons.map((poke, index)=>{
-                    return(
-                        <li className="List__item" key={index}>
-                            <div className="List__item-card">
-                                <div className="Card__header">
-                                    <div className="Card__id">
-                                        ID/#{poke.id}
-                                    </div>
-                                    <img src={poke.sprites.front_default} className="Card__img" alt={poke.name}/>
+            
+                return(
+                    filteredPokemons.map((poke, index) => {
+                    return(<li className="List__item" key={index}>
+                        <div className="List__item-card">
+                            <div className="Card__header">
+                                <div className="Card__id">
+                                    ID/#{poke.id}
                                 </div>
-                                <div className="Card__body">
-                                    <h2 className="Card__title">{poke.name}</h2>
-                                    <div className="Card__chips">
-                                        <ul className="Card__chips-list">
-                                            {poke.types.map((chip, index)=>{
-                                                return(
-                                                    <li className="Chips__list-item" key={index}>
-                                                        <h3>{chip.type.name}</h3>
-                                                    </li>
-                                                )
-                                            })}
-                                        </ul>
-                                    </div>
+                                <img src={poke.sprites.front_default} className="Card__img" alt={poke.name}/>
+                            </div>
+                            <div className="Card__body">
+                                <h2 className="Card__title">{poke.name}</h2>
+                                <div className="Card__evolution">
+                                        <p>Previous form: {this.isEvolved(poke)}</p> 
+                                </div>
+                                <div className="Card__chips">
+                                    <ul className="Card__chips-list">
+                                        {poke.types.map((chip, index)=>{
+                                            return(
+                                                <li className="Chips__list-item" key={index}>
+                                                    <h3>{chip.type.name}</h3>
+                                                </li>
+                                            )
+                                        })}
+                                    </ul>
                                 </div>
                             </div>
-                        </li>
-                    )
-                })
-            ) 
-        } else{
+                        </div>
+                    </li>
+                    )})   
+                )
+                
+        } else {
             return(<div>Loading, please wait...</div>)
+        }
+    }
+
+    isEvolved(poke){
+        const evolutions = this.props.pokemonEvolutions
+        for(let i=0; i<evolutions.length; i++){
+            let noEvol = evolutions[i].chain.species.name;
+            if(noEvol.includes(poke.name)){
+            
+                const text = 'no previous form';
+                return text                   
+            } else{
+                console.log('entré 2');
+                for(let j=0; j>evolutions[i].chain.evolves_to.length; j++){
+                    console.log('no quiere entrar');
+                    let firstEvol = evolutions[i].chain.evolves_to[j].species.name;
+                    console.log('firstEvol');
+                    if(firstEvol.includes(poke.name)){
+                        return noEvol;             
+                    } else {
+                        for(let n=0; n>evolutions[i].chain.evolves_to[j].evolves_to.length; n++){
+                            let secondEvol = evolutions[i].chain.evolves_to[j].evolves_to[n].species.name;
+                            if(secondEvol.includes(poke.name)){
+                                const text = `${noEvol} y ${firstEvol}`
+                                return text;            
+                            } else {
+                                const text = '???';
+                                return text;
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
     render() {
         return (
-            this.isPaint()
+            this.isPaint() 
         )
     }
 }

@@ -5,7 +5,7 @@ class PokeList extends Component {
     render() {
         return (
             <ul className="List">
-                <PokeCard limit={this.props.limit} pokemonDetailsOrdered={this.props.pokemonDetailsOrdered} filterIt={this.props.filterIt}></PokeCard> 
+                <PokeCard limit={this.props.limit} pokemonDetailsOrdered={this.props.pokemonDetailsOrdered} filterIt={this.props.filterIt} pokemonEvolutions={this.props.pokemonEvolutions}></PokeCard> 
             </ul>
         )
         }
