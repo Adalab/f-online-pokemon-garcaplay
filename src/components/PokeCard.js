@@ -47,27 +47,20 @@ class PokeCard extends Component {
         for(let i=0; i<evolutions.length; i++){
             let noEvol = evolutions[i].chain.species.name;
             if(noEvol.includes(poke.name)){
-            
                 const text = 'no previous form';
                 return text                   
             } else{
-                console.log('entré 2');
-                for(let j=0; j>evolutions[i].chain.evolves_to.length; j++){
-                    console.log('no quiere entrar');
+                for(let j=0; j<evolutions[i].chain.evolves_to.length; j++){
                     let firstEvol = evolutions[i].chain.evolves_to[j].species.name;
-                    console.log('firstEvol');
                     if(firstEvol.includes(poke.name)){
                         return noEvol;             
                     } else {
-                        for(let n=0; n>evolutions[i].chain.evolves_to[j].evolves_to.length; n++){
+                        for(let n=0; n<evolutions[i].chain.evolves_to[j].evolves_to.length; n++){
                             let secondEvol = evolutions[i].chain.evolves_to[j].evolves_to[n].species.name;
                             if(secondEvol.includes(poke.name)){
-                                const text = `${noEvol} y ${firstEvol}`
+                                const text = `${noEvol} and ${firstEvol}`
                                 return text;            
-                            } else {
-                                const text = '???';
-                                return text;
-                            }
+                            } 
                         }
                     }
                 }
