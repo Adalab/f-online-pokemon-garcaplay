@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class PokeCard extends Component {
     isPaint(){
         if(this.props.pokemonDetailsOrdered.length === this.props.limit){
-            const filteredPokemons = this.props.pokemonDetailsOrdered.filter(pokemon => pokemon.name.toLowerCase().includes(this.props.filterIt.toLocaleLowerCase()));
+            const filteredPokemons = this.props.pokemonDetailsOrdered.filter(pokemon => pokemon.name.toLowerCase().includes(this.props.filterIt.toLowerCase()));
             
                 return(
                     filteredPokemons.map((poke, index) => {
