@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Link, Route, Switch} from 'react-router-dom';
 
 class PokeCard extends Component {
     isPaint(){
@@ -7,33 +8,36 @@ class PokeCard extends Component {
             
                 return(
                     filteredPokemons.map((poke, index) => {
-                    return(<li className="List__item" key={index}>
-                        <div className="List__item-card">
-                            <div className="Card__header">
-                                <div className="Card__id">
-                                    ID/#{poke.id}
+                    return(
+                        <li className="List__item" key={index}>
+                            <Link to={`/detail/${index}`}>
+                                <div className="List__item-card">
+                                    <div className="Card__header">
+                                        <div className="Card__id">
+                                            ID/#{poke.id}
+                                        </div>
+                                        <img src={poke.sprites.front_default} className="Card__img" alt={poke.name}/>
+                                    </div>
+                                    <div className="Card__body">
+                                        <h2 className="Card__title">{poke.name}</h2>
+                                        <div className="Card__evolution">
+                                                <p>Previous form: {this.isEvolved(poke)}</p> 
+                                        </div>
+                                        <div className="Card__chips">
+                                            <ul className="Card__chips-list">
+                                                {poke.types.map((chip, index)=>{
+                                                    return(
+                                                        <li className="Chips__list-item" key={index}>
+                                                            <h3>{chip.type.name}</h3>
+                                                        </li>
+                                                    )
+                                                })}
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                                <img src={poke.sprites.front_default} className="Card__img" alt={poke.name}/>
-                            </div>
-                            <div className="Card__body">
-                                <h2 className="Card__title">{poke.name}</h2>
-                                <div className="Card__evolution">
-                                        <p>Previous form: {this.isEvolved(poke)}</p> 
-                                </div>
-                                <div className="Card__chips">
-                                    <ul className="Card__chips-list">
-                                        {poke.types.map((chip, index)=>{
-                                            return(
-                                                <li className="Chips__list-item" key={index}>
-                                                    <h3>{chip.type.name}</h3>
-                                                </li>
-                                            )
-                                        })}
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
+                            </Link>
+                        </li>
                     )})   
                 )
                 

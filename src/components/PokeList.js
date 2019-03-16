@@ -8,7 +8,7 @@ class PokeList extends Component {
                 <PokeCard limit={this.props.limit} pokemonDetailsOrdered={this.props.pokemonDetailsOrdered} filterIt={this.props.filterIt} pokemonEvolutions={this.props.pokemonEvolutions}></PokeCard> 
             </ul>
         )
-        }
+    }
 }
 
 export default PokeList;
