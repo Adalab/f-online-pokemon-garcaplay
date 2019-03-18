@@ -24,7 +24,7 @@ class DetailCard extends Component {
                     <div className="Detail__body">
                         <h2 className="Detail__title">{pokemon.name}</h2>
                         <div className="Detail__evolution">
-                            {this.getEvolution(pokemon)}
+                            {/* {this.getEvolution(pokemon)} */}
                         </div>
                         <div className="Detail__info">
                             <div className="Detail__info-size">
